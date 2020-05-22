@@ -1,4 +1,4 @@
-import { ADD_FEATURE } from '../actions/';
+import { ADD_FEATURE, REMOVE_FEATURE } from '../actions/';
 
 export const initialState = {
   additionalPrice: 0,
@@ -21,19 +21,51 @@ export const reducer = (state = initialState, action) => {
   console.log('state', state, 'action', action);
   switch (action.type) {
     case ADD_FEATURE:
-      const feature = state.additionalFeatures.find(
+      const addedFeature = state.additionalFeatures.find(
         (feature) => feature.id === action.payload
       );
 
       return {
-        additionalPrice: state.additionalPrice + feature.price,
+        additionalPrice: state.additionalPrice + addedFeature.price,
         car: {
           ...state.car,
-          features: [...state.car.features, feature.name]
+          features: [
+            ...state.car.features,
+            {
+              id: addedFeature.id,
+              name: addedFeature.name,
+              price: addedFeature.price
+            }
+          ]
         },
         additionalFeatures: [...state.additionalFeatures].filter(
-          (feature) => feature.id != action.payload
+          (feature) => feature.id !== action.payload
         )
+      };
+
+    case REMOVE_FEATURE:
+      const removedFeature = state.car.features.find(
+        (feature) => feature.id === action.payload
+      );
+
+      console.log('removedFeature', removedFeature);
+
+      return {
+        additionalPrice: state.additionalPrice - removedFeature.price,
+        car: {
+          ...state.car,
+          features: [...state.car.features].filter(
+            (feature) => feature.id !== action.payload
+          )
+        },
+        additionalFeatures: [
+          ...state.additionalFeatures,
+          {
+            id: removedFeature.id,
+            name: removedFeature.name,
+            price: removedFeature.price
+          }
+        ]
       };
 
     default:
