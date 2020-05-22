@@ -6,13 +6,11 @@ const AddedFeature = (props) => {
   return (
     <>
       {props.features.map((feature) => {
-        console.log('feature', feature);
-        console.log('feature.id', feature.id);
         return (
           <li key={feature.id}>
             {/* Add an onClick to run a function to remove a feature */}
             <button
-              onClick={() => props.removeFeature(feature.id)}
+              onClick={() => props.removeFeature(feature)}
               className='button'
             >
               X

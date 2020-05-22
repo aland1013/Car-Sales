@@ -18,54 +18,35 @@ export const initialState = {
 };
 
 export const reducer = (state = initialState, action) => {
-  console.log('state', state, 'action', action);
   switch (action.type) {
     case ADD_FEATURE:
-      const addedFeature = state.additionalFeatures.find(
-        (feature) => feature.id === action.payload
-      );
+      const addedFeature = action.payload;
 
       return {
         additionalPrice: state.additionalPrice + addedFeature.price,
         car: {
           ...state.car,
-          features: [
-            ...state.car.features,
-            {
-              id: addedFeature.id,
-              name: addedFeature.name,
-              price: addedFeature.price
-            }
-          ]
+          features: [...state.car.features, addedFeature]
         },
-        additionalFeatures: [...state.additionalFeatures].filter(
-          (feature) => feature.id !== action.payload
-        )
+        additionalFeatures: [...state.additionalFeatures]
+          .filter((feature) => feature !== addedFeature)
+          .sort((a, b) => a.id - b.id)
       };
 
     case REMOVE_FEATURE:
-      const removedFeature = state.car.features.find(
-        (feature) => feature.id === action.payload
-      );
-
-      console.log('removedFeature', removedFeature);
+      const removedFeature = action.payload;
 
       return {
         additionalPrice: state.additionalPrice - removedFeature.price,
         car: {
           ...state.car,
           features: [...state.car.features].filter(
-            (feature) => feature.id !== action.payload
+            (feature) => feature !== removedFeature
           )
         },
-        additionalFeatures: [
-          ...state.additionalFeatures,
-          {
-            id: removedFeature.id,
-            name: removedFeature.name,
-            price: removedFeature.price
-          }
-        ]
+        additionalFeatures: [...state.additionalFeatures, removedFeature].sort(
+          (a, b) => a.id - b.id
+        )
       };
 
     default:
