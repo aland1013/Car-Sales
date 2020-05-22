@@ -21,16 +21,19 @@ export const reducer = (state = initialState, action) => {
   console.log('state', state, 'action', action);
   switch (action.type) {
     case ADD_FEATURE:
-      const feature = state.additionalFeatures[action.payload - 1];
+      const feature = state.additionalFeatures.find(
+        (feature) => feature.id === action.payload
+      );
 
       return {
         additionalPrice: state.additionalPrice + feature.price,
         car: {
           ...state.car,
-          price: state.car.price + feature.price,
           features: [...state.car.features, feature.name]
         },
-        additionalFeatures: [...state.additionalFeatures]
+        additionalFeatures: [...state.additionalFeatures].filter(
+          (feature) => feature.id != action.payload
+        )
       };
 
     default:
