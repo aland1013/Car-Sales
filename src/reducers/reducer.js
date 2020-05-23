@@ -1,4 +1,5 @@
-import { ADD_FEATURE, REMOVE_FEATURE } from '../actions/';
+export const ADD_FEATURE = 'ADD_FEATURE';
+export const REMOVE_FEATURE = 'REMOVE_FEATURE';
 
 export const initialState = {
   additionalPrice: 0,
