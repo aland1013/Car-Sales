@@ -4,7 +4,6 @@ import { REMOVE_FEATURE } from '../reducers/reducer';
 
 const AddedFeature = () => {
   const features = useSelector((state) => state.car.features);
-  console.log('features', features);
   const dispatch = useDispatch();
 
   return (

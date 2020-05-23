@@ -4,6 +4,7 @@ import AdditionalFeature from './AdditionalFeature';
 
 const AdditionalFeatures = () => {
   const additionalFeatures = useSelector((state) => state.additionalFeatures);
+
   return (
     <div className='content'>
       <h4>Additional Features</h4>
